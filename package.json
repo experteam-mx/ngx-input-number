@@ -1,0 +1,20 @@
+{
+  "name": "@experteam-mx/ngx-input-number",
+  "version": "1.0.1",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@experteam-mx"
+  },
+  "peerDependencies": {},
+  "dependencies": {
+    "@angular/common": "^12.0.2",
+    "@angular/core": "^12.0.2",
+    "@ngneat/input-mask": "^5.1.0",
+    "bootstrap": "^5.1.3",
+    "inputmask": "^5.0.7",
+    "tslib": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/inputmask": "^5.0.1"
+  }
+}

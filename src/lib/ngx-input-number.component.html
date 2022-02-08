@@ -1,0 +1,10 @@
+<input
+    #inputElement
+    type="text"
+    class="form-control form-control-sm"
+    [class.is-invalid]="control.touched && control.invalid"
+    [formControl]="control"
+    [inputMask]="inputMask"
+    [placeholder]="placeholder"
+    [id]="idForLabel"
+>
