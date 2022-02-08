@@ -1,10 +1,7 @@
 {
   "name": "@experteam-mx/ngx-input-number",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "license": "MIT",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@experteam-mx"
-  },
   "peerDependencies": {},
   "dependencies": {
     "@angular/common": "^12.0.2",
