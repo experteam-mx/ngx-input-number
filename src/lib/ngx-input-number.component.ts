@@ -23,7 +23,7 @@ export class NgxInputNumberComponent implements OnInit {
   inputMask = createMask({
     allowMinus: true,
     alias: 'numeric',
-    numericInput: true,
+    numericInput: false,
     inputType: "number",
     inputmode: "numeric",
     groupSeparator: ',',
@@ -33,6 +33,8 @@ export class NgxInputNumberComponent implements OnInit {
     placeholder: '0',
     unmaskAsNumber: true,
     autoUnmask: true,
+    showMaskOnFocus: false,
+    showMaskOnHover: false,
   })
 
   placeholder = "0"
