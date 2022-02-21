@@ -1,7 +1,7 @@
 <input
     #inputElement
     type="text"
-    class="form-control form-control-sm"
+    class="form-control {{ addClass }}"
     [class.is-invalid]="control.touched && control.invalid"
     [formControl]="control"
     [inputMask]="inputMask"

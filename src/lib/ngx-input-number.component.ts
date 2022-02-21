@@ -19,6 +19,7 @@ export class NgxInputNumberComponent implements OnInit {
   @Input() decimals: any
   @Input() max: any
   @Input() idForLabel: any = ""
+  @Input() addClass: any = "form-control-sm"
 
   inputMask = createMask({
     allowMinus: true,
