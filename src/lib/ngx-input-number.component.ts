@@ -66,7 +66,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
     if( this.decimals !== undefined ){
       this.inputMask.digits = this.decimals
       if( this.decimals > 0 ){
-        this.placeholder += String(this.inputMask.radixPoint)
+        this.placeholder = '0' + String(this.inputMask.radixPoint)
       }
       for( let x = 0; x < this.decimals; x++ ){
         this.placeholder += "0"
@@ -81,7 +81,6 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.render()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
