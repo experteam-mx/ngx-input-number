@@ -1,15 +1,17 @@
-import { Component, OnInit, Input, AfterViewInit, AfterContentInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, AfterViewInit, AfterContentInit, ElementRef, ViewChild, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, Validators, FormArray, FormGroup, FormControl } from "@angular/forms";
-import { createMask } from '@ngneat/input-mask';
+import { createMask, InputmaskOptions } from '@ngneat/input-mask';
 
 @Component({
   selector: 'app-input-number',
   templateUrl: './ngx-input-number.component.html',
   styleUrls: ['./ngx-input-number.component.sass']
 })
-export class NgxInputNumberComponent implements OnInit {
+export class NgxInputNumberComponent implements OnInit, OnChanges {
 
-  constructor() { }
+  constructor(
+    private _ChangeDetectorRef: ChangeDetectorRef
+  ) { }
 
   @ViewChild('inputElement') inputElement!: ElementRef;
 
@@ -21,24 +23,11 @@ export class NgxInputNumberComponent implements OnInit {
   @Input() idForLabel: any = ""
   @Input() addClass: any = "form-control-sm"
 
-  inputMask = createMask({
-    allowMinus: true,
-    alias: 'numeric',
-    numericInput: false,
-    inputType: "number",
-    inputmode: "numeric",
-    groupSeparator: ',',
-    radixPoint : '.',
-    digits: 2,
-    digitsOptional: false,
-    placeholder: '0',
-    unmaskAsNumber: true,
-    autoUnmask: true,
-    showMaskOnFocus: false,
-    showMaskOnHover: false,
-  })
+  inputMask: InputmaskOptions<any> = {}
 
   placeholder = "0"
+
+  loading = false
 
   ngAfterViewInit(): void {
     if( this.autofocus ){
@@ -51,7 +40,26 @@ export class NgxInputNumberComponent implements OnInit {
   ngAfterContentInit(): void {
   }
 
-  ngOnInit(): void {
+  render(){
+    this._ChangeDetectorRef.detectChanges()
+
+    this.inputMask = createMask({
+      allowMinus: true,
+      alias: 'numeric',
+      numericInput: false,
+      inputType: "number",
+      inputmode: "numeric",
+      groupSeparator: ',',
+      radixPoint : '.',
+      digits: 2,
+      digitsOptional: false,
+      placeholder: '0',
+      unmaskAsNumber: true,
+      autoUnmask: true,
+      showMaskOnFocus: false,
+      showMaskOnHover: false,
+    })
+    
     if( this.negative === false ){
       this.inputMask.allowMinus = false
     }
@@ -67,6 +75,21 @@ export class NgxInputNumberComponent implements OnInit {
     if( this.max !== undefined ){
       this.inputMask.max = this.max
     }
+
+    this.loading = false
+
+  }
+
+  ngOnInit(): void {
+    this.render()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.loading = true
+
+    setTimeout(() => {
+      this.render()
+    }, 0);
   }
 
 }

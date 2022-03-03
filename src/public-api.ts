@@ -5,3 +5,4 @@
 export * from './lib/ngx-input-number.service';
 export * from './lib/ngx-input-number.component';
 export * from './lib/ngx-input-number.module';
+export * from '@ngneat/input-mask';

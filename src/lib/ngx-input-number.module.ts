@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';  
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NgxInputNumberComponent } from './ngx-input-number.component';
@@ -11,7 +12,8 @@ import { InputMaskModule } from '@ngneat/input-mask';
     NgxInputNumberComponent
   ],
   imports: [
-    InputMaskModule,
+    CommonModule,
+    InputMaskModule.forRoot({ inputSelector: 'input', isAsync: true }),
     FormsModule,
     ReactiveFormsModule,
   ],

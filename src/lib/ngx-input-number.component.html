@@ -1,10 +1,11 @@
 <input
+    *ngIf="!loading"
     #inputElement
     type="text"
     class="form-control {{ addClass }}"
     [class.is-invalid]="control.touched && control.invalid"
     [formControl]="control"
-    [inputMask]="inputMask"
+    [(inputMask)]="inputMask"
     [placeholder]="placeholder"
     [id]="idForLabel"
 >
