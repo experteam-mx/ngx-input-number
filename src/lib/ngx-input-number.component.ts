@@ -56,8 +56,11 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       placeholder: '0',
       unmaskAsNumber: true,
       autoUnmask: true,
-      showMaskOnFocus: false,
+      showMaskOnFocus: true,
       showMaskOnHover: false,
+      onBeforePaste: ( pastedValue, opts ) =>{
+        return pastedValue.replace( opts.groupSeparator!, "" )
+      }
     })
     
     if( this.negative === false ){
