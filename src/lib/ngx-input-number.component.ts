@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, AfterViewInit, AfterContentInit, ElementRef, ViewChild, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, Validators, FormArray, FormGroup, FormControl } from "@angular/forms";
 import { createMask, InputmaskOptions } from '@ngneat/input-mask';
+import { NgxInputNumberService } from './ngx-input-number.service';
 
 @Component({
   selector: 'app-input-number',
@@ -10,7 +11,8 @@ import { createMask, InputmaskOptions } from '@ngneat/input-mask';
 export class NgxInputNumberComponent implements OnInit, OnChanges {
 
   constructor(
-    private _ChangeDetectorRef: ChangeDetectorRef
+    private _ChangeDetectorRef: ChangeDetectorRef,
+    private _NgxInputNumberService: NgxInputNumberService,
   ) { }
 
   @ViewChild('inputElement') inputElement!: ElementRef;
@@ -22,6 +24,8 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   @Input() max: any
   @Input() idForLabel: any = ""
   @Input() addClass: any = "form-control-sm"
+  @Input() groupSeparator: any = this._NgxInputNumberService.groupSeparator
+  @Input() radixPoint: any = this._NgxInputNumberService.radixPoint
 
   inputMask: InputmaskOptions<any> = {}
 
@@ -49,8 +53,8 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       numericInput: false,
       inputType: "number",
       inputmode: "numeric",
-      groupSeparator: ',',
-      radixPoint : '.',
+      groupSeparator: this.groupSeparator,
+      radixPoint : this.radixPoint,
       digits: 2,
       digitsOptional: false,
       placeholder: '0',
@@ -58,8 +62,8 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       autoUnmask: true,
       showMaskOnFocus: true,
       showMaskOnHover: false,
-      onBeforePaste: ( pastedValue, opts ) =>{
-        return pastedValue.replace( opts.groupSeparator!, "" )
+      onBeforePaste: ( pastedValue: any, opts ) =>{
+        return pastedValue.replaceAll( opts.groupSeparator!, "" )
       }
     })
     
