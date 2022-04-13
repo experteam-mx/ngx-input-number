@@ -88,11 +88,9 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log("ngOnInit this._typesProvider",this._typesProvider)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("ngOnChanges this._typesProvider",this._typesProvider)
     this.loading = true
 
     setTimeout(() => {
