@@ -5,9 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxInputNumberComponent } from './ngx-input-number.component';
 import { InputMaskModule } from '@ngneat/input-mask';
 
-import { NgxInputNumberService } from './ngx-input-number.service';
-import { inputConfigs } from './types';
-import { INPUT_CONFIG_TOKEN } from './di';
+import { inputConfigsHelp, typesProvider, defaultTypesProvider } from './typesProvider';
 
 @NgModule({
   declarations: [
@@ -23,14 +21,18 @@ import { INPUT_CONFIG_TOKEN } from './di';
     NgxInputNumberComponent
   ],
   providers:[
-    NgxInputNumberService
   ]
 })
 export class NgxInputNumberModule {
-  static forRoot(config: inputConfigs ): ModuleWithProviders<NgxInputNumberModule> {
+  static forRoot(config: inputConfigsHelp = {} ): ModuleWithProviders<NgxInputNumberModule> {
     return {
       ngModule: NgxInputNumberModule,
-      providers: [{ provide: INPUT_CONFIG_TOKEN, useValue: config }],
+      providers: [
+        config.config || {
+          provide: typesProvider,
+          useClass: defaultTypesProvider
+        }
+      ],
     }
   }
 }

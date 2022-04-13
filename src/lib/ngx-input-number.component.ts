@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, AfterViewInit, AfterContentInit, ElementRef, ViewChild, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, Validators, FormArray, FormGroup, FormControl } from "@angular/forms";
 import { createMask, InputmaskOptions } from '@ngneat/input-mask';
-import { NgxInputNumberService } from './ngx-input-number.service';
+import { inputConfigs, typesProvider } from './typesProvider';
 
 @Component({
   selector: 'app-input-number',
@@ -12,7 +12,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
 
   constructor(
     private _ChangeDetectorRef: ChangeDetectorRef,
-    private _NgxInputNumberService: NgxInputNumberService,
+    private readonly _typesProvider: typesProvider
   ) { }
 
   @ViewChild('inputElement') inputElement!: ElementRef;
@@ -24,8 +24,8 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   @Input() max: any
   @Input() idForLabel: any = ""
   @Input() addClass: any = "form-control-sm"
-  @Input() groupSeparator: any = this._NgxInputNumberService.groupSeparator
-  @Input() radixPoint: any = this._NgxInputNumberService.radixPoint
+  @Input() groupSeparator: any = this._typesProvider.config.groupSeparator
+  @Input() radixPoint: any = this._typesProvider.config.radixPoint
 
   inputMask: InputmaskOptions<any> = {}
 
@@ -88,9 +88,11 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    console.log("ngOnInit this._typesProvider",this._typesProvider)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log("ngOnChanges this._typesProvider",this._typesProvider)
     this.loading = true
 
     setTimeout(() => {

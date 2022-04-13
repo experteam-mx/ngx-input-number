@@ -27,5 +27,5 @@ export class NgxInputNumberService {
     if( config.radixPoint ){
       this.radixPoint = config.radixPoint!
     }
-}
+  }
 }
