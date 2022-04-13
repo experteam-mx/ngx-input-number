@@ -15,8 +15,8 @@ export class defaultTypesProvider extends typesProvider {
   get config(): inputConfigs {
     // return default config
     return {
-        groupSeparator: ".",
-        radixPoint: ","
+        groupSeparator: ",",
+        radixPoint: "."
     };
   }
 }
