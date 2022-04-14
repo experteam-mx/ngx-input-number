@@ -1,12 +1,14 @@
-import { Injectable, Optional, Inject } from '@angular/core';
+import { Injectable, Optional, Inject, EventEmitter, Output } from '@angular/core';
 import { INPUT_CONFIG_TOKEN } from './di';
 import { inputConfigs } from './types';
+import { BehaviorSubject, Subject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class NgxInputNumberService {
 
+  changeEvent = new BehaviorSubject<boolean>(false);
   groupSeparator = ','
   radixPoint = '.'
 
@@ -20,12 +22,18 @@ export class NgxInputNumberService {
     }
   }
 
-  changeParams( config: inputConfigs ){
+  onChangeParams( config: inputConfigs ){
     if( config.groupSeparator ){
       this.groupSeparator = config.groupSeparator!
     }
     if( config.radixPoint ){
       this.radixPoint = config.radixPoint!
     }
+
+    this.changeEvent.next( true )
+  }
+
+  getChangeEvent(){
+    return this.changeEvent
   }
 }

@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, OnChanges, AfterViewInit, AfterContentInit, ElementRef, ViewChild, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, Validators, FormArray, FormGroup, FormControl } from "@angular/forms";
 import { createMask, InputmaskOptions } from '@ngneat/input-mask';
+
 import { inputConfigs, typesProvider } from './typesProvider';
+import { NgxInputNumberService } from './ngx-input-number.service';
 
 @Component({
   selector: 'app-input-number',
@@ -12,7 +14,8 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
 
   constructor(
     private _ChangeDetectorRef: ChangeDetectorRef,
-    private readonly _typesProvider: typesProvider
+    private readonly _typesProvider: typesProvider,
+    private _NgxInputNumberService: NgxInputNumberService,
   ) { }
 
   @ViewChild('inputElement') inputElement!: ElementRef;
@@ -24,8 +27,8 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   @Input() max: any
   @Input() idForLabel: any = ""
   @Input() addClass: any = "form-control-sm"
-  @Input() groupSeparator: any = this._typesProvider.config.groupSeparator
-  @Input() radixPoint: any = this._typesProvider.config.radixPoint
+  @Input() groupSeparator: any
+  @Input() radixPoint: any
 
   inputMask: InputmaskOptions<any> = {}
 
@@ -53,8 +56,8 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       numericInput: false,
       inputType: "number",
       inputmode: "numeric",
-      groupSeparator: this.groupSeparator,
-      radixPoint : this.radixPoint,
+      groupSeparator: this._NgxInputNumberService.groupSeparator,
+      radixPoint : this._NgxInputNumberService.radixPoint,
       digits: 2,
       digitsOptional: false,
       placeholder: '0',
@@ -70,6 +73,17 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
     if( this.negative === false ){
       this.inputMask.allowMinus = false
     }
+    if( this.max !== undefined ){
+      this.inputMask.max = this.max
+    }
+    
+    if( this.groupSeparator !== undefined ){
+      this.inputMask.groupSeparator = this.groupSeparator
+    }
+    if( this.radixPoint !== undefined ){
+      this.inputMask.radixPoint = this.radixPoint
+    }
+
     if( this.decimals !== undefined ){
       this.inputMask.digits = this.decimals
       if( this.decimals > 0 ){
@@ -79,15 +93,23 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
         this.placeholder += "0"
       }
     }
-    if( this.max !== undefined ){
-      this.inputMask.max = this.max
-    }
 
     this.loading = false
 
   }
 
   ngOnInit(): void {
+    this._NgxInputNumberService.getChangeEvent().subscribe(
+      ( configs )=>{
+        if( configs ){
+          this.loading = true
+
+          setTimeout(() => {
+            this.render()
+          }, 0);
+        }
+      }
+    )
   }
 
   ngOnChanges(changes: SimpleChanges): void {
