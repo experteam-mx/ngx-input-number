@@ -29,6 +29,8 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   @Input() addClass: any = "form-control-sm"
   @Input() groupSeparator: any
   @Input() radixPoint: any
+  @Input() lblKeyInvalid: any
+  lblKeyInvalidRender: any
 
   inputMask: InputmaskOptions<any> = {}
 
@@ -50,15 +52,18 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   render(){
     this._ChangeDetectorRef.detectChanges()
 
+    this.lblKeyInvalidRender = this._NgxInputNumberService.lblKeyInvalid
+
     this.inputMask = createMask({
-      allowMinus: true,
+      allowMinus: this._NgxInputNumberService.negative,
       alias: 'numeric',
       numericInput: false,
       inputType: "number",
       inputmode: "numeric",
       groupSeparator: this._NgxInputNumberService.groupSeparator,
       radixPoint : this._NgxInputNumberService.radixPoint,
-      digits: 2,
+      max : this._NgxInputNumberService.max,
+      digits: this._NgxInputNumberService.decimals,
       digitsOptional: false,
       placeholder: '0',
       unmaskAsNumber: true,
@@ -67,11 +72,22 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       showMaskOnHover: false,
       onBeforePaste: ( pastedValue: any, opts ) =>{
         return pastedValue.replaceAll( opts.groupSeparator!, "" )
+      },
+      onKeyValidation: ( key, result ) => {
+        if( !result ){
+          this.inputElement.nativeElement.classList.add("key-invalid")
+          setTimeout(
+            ()=>{
+              this.inputElement.nativeElement.classList.remove("key-invalid")
+            },
+            1000
+          )
+        }
       }
     })
     
-    if( this.negative === false ){
-      this.inputMask.allowMinus = false
+    if( this.negative !== undefined ){
+      this.inputMask.allowMinus = this.negative
     }
     if( this.max !== undefined ){
       this.inputMask.max = this.max
@@ -83,15 +99,21 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
     if( this.radixPoint !== undefined ){
       this.inputMask.radixPoint = this.radixPoint
     }
+    if( this.lblKeyInvalid !== undefined ){
+      this.lblKeyInvalidRender = this.lblKeyInvalid
+    }
 
     if( this.decimals !== undefined ){
       this.inputMask.digits = this.decimals
-      if( this.decimals > 0 ){
-        this.placeholder = '0' + String(this.inputMask.radixPoint)
-      }
-      for( let x = 0; x < this.decimals; x++ ){
-        this.placeholder += "0"
-      }
+    }
+
+
+
+    if( this.inputMask.digits! > 0 ){
+      this.placeholder = '0' + String(this.inputMask.radixPoint)
+    }
+    for( let x = 0; x < this.inputMask.digits!; x++ ){
+      this.placeholder += "0"
     }
 
     this.loading = false
