@@ -64,7 +64,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       radixPoint : this._NgxInputNumberService.radixPoint,
       max : this._NgxInputNumberService.max,
       digits: this._NgxInputNumberService.decimals,
-      digitsOptional: false,
+      digitsOptional: true,
       placeholder: '0',
       unmaskAsNumber: true,
       autoUnmask: true,
