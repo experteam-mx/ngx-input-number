@@ -8,6 +8,7 @@
         [formControl]="control"
         [(inputMask)]="inputMask"
         [id]="idForLabel"
+        (blur)="onBlur(inputElement.value)"
     >
     <label class="lbl-key-invalid position-absolute top-100 end-0 p-2 d-none" [innerHTML]="lblKeyInvalidRender"></label>
 </div>

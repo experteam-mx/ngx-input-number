@@ -120,6 +120,19 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
 
   }
 
+  onBlur(value: any){
+    if( value != '' && Number( this.inputMask.digits ) > 0 ){
+      let valueBlurSplit = String(value).split(".")
+      let valueString = ""
+      if( valueBlurSplit.length == 1 ){
+        valueString = valueBlurSplit[0] + "." + String("").padEnd(Number(this.inputMask.digits), "0")
+      }else{
+        valueString = valueBlurSplit[0] + "." + String(valueBlurSplit[1]).padEnd(Number(this.inputMask.digits), "0")
+      }
+      this.control.setValue( valueString )
+    }
+  }
+
   ngOnInit(): void {
     this._NgxInputNumberService.getChangeEvent().subscribe(
       ( configs )=>{

@@ -1,6 +1,6 @@
 {
   "name": "@experteam-mx/ngx-input-number",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "license": "MIT",
   "peerDependencies": {},
   "dependencies": {
