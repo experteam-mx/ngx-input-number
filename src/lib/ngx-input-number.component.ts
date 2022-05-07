@@ -64,11 +64,11 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       radixPoint : this._NgxInputNumberService.radixPoint,
       max : this._NgxInputNumberService.max,
       digits: this._NgxInputNumberService.decimals,
-      digitsOptional: true,
+      digitsOptional: false,
       placeholder: '0',
       unmaskAsNumber: true,
       autoUnmask: true,
-      showMaskOnFocus: true,
+      showMaskOnFocus: false,
       showMaskOnHover: false,
       onBeforePaste: ( pastedValue: any, opts ) =>{
         return pastedValue.replaceAll( opts.groupSeparator!, "" )
@@ -121,16 +121,17 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   }
 
   onBlur(value: any){
-    if( value != '' && Number( this.inputMask.digits ) > 0 ){
-      let valueBlurSplit = String(value).split(".")
-      let valueString = ""
-      if( valueBlurSplit.length == 1 ){
-        valueString = valueBlurSplit[0] + "." + String("").padEnd(Number(this.inputMask.digits), "0")
-      }else{
-        valueString = valueBlurSplit[0] + "." + String(valueBlurSplit[1]).padEnd(Number(this.inputMask.digits), "0")
-      }
-      this.control.setValue( valueString )
-    }
+    // if( value != '' && Number( this.inputMask.digits ) > 0 ){
+    //   let valueBlurSplit = String(value).split(".")
+    //   let valueString = ""
+    //   if( valueBlurSplit.length == 1 ){
+    //     valueString = valueBlurSplit[0] + "." + String("").padEnd(Number(this.inputMask.digits), "0")
+    //   }else{
+    //     valueString = valueBlurSplit[0] + "." + String(valueBlurSplit[1]).padEnd(Number(this.inputMask.digits), "0")
+    //   }
+    //   this.control.setValue( parseFloat( valueString ) )
+    // }
+    this.control.setValue( value )
   }
 
   ngOnInit(): void {
