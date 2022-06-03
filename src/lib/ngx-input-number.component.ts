@@ -26,6 +26,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   @Input() decimals: any
   @Input() max: any
   @Input() idForLabel: any = ""
+  @Input() tabIndex: any
   @Input() addClass: any = "form-control-sm"
   @Input() groupSeparator: any
   @Input() radixPoint: any

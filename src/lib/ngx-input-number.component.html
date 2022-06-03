@@ -6,6 +6,7 @@
         class="form-control {{ addClass }}"
         [class.is-invalid]="control.touched && control.invalid"
         [formControl]="control"
+        [tabindex]="tabIndex"
         [(inputMask)]="inputMask"
         [id]="idForLabel"
     >
