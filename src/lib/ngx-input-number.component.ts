@@ -66,7 +66,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       max : this._NgxInputNumberService.max,
       digits: this._NgxInputNumberService.decimals,
       digitsOptional: false,
-      placeholder: '0',
+      // placeholder: '0',
       unmaskAsNumber: true,
       autoUnmask: true,
       showMaskOnFocus: false,
@@ -83,6 +83,11 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
             },
             1000
           )
+        }
+      },
+      onKeyDown: (event: any,buffer) => {
+        if( event.target.value == '' ){
+          this.control.setValue( null )
         }
       }
     })
@@ -110,12 +115,12 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
 
 
 
-    if( this.inputMask.digits! > 0 ){
-      this.placeholder = '0' + String(this.inputMask.radixPoint)
-    }
-    for( let x = 0; x < this.inputMask.digits!; x++ ){
-      this.placeholder += "0"
-    }
+    // if( Number(this.inputMask.digits)! > 0 ){
+    //   this.placeholder = '0' + String(this.inputMask.radixPoint)
+    // }
+    // for( let x = 0; x < Number(this.inputMask.digits)!; x++ ){
+    //   this.placeholder += "0"
+    // }
 
     this.loading = false
 
