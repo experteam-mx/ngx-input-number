@@ -86,7 +86,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
         }
       },
       onKeyDown: (event: any,buffer) => {
-        if( event.target.value == '' ){
+        if( event.target.value === 0 && event.key != "Tab" ){
           this.control.setValue( null )
         }
       }
