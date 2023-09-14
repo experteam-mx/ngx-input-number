@@ -65,7 +65,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       radixPoint : this._NgxInputNumberService.radixPoint,
       max : this._NgxInputNumberService.max,
       digits: this._NgxInputNumberService.decimals,
-      digitsOptional: false,
+      digitsOptional: true,
       // placeholder: '0',
       unmaskAsNumber: true,
       autoUnmask: true,
@@ -85,14 +85,36 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
           )
         }
       },
-      onKeyDown: (event: any,buffer) => {
+      onKeyDown: (event: any,buffer, caretPos) => {
         // if( event.target.value === 0 && event.key != "Tab" ){
         //   this.control.setValue( null )
         // }
         if( event.target.value === 0 && (event.key == "Backspace" || event.key == "Delete") ){
           this.control.setValue( null )
         }
-      }
+      },
+      // onBeforeWrite: (event, buffer, caretPos, opts) => {
+      //   let caret = caretPos
+      //   console.log("caret",caret)
+      //   setTimeout(
+      //     () => {
+      //       // console.log("event",event)
+      //       // console.log("this.inputElement.nativeElement.value",this.inputElement.nativeElement.value)
+
+      //       if( event.type != "checkval" && this.inputElement.nativeElement.value === "" ){
+      //         this.control.setValue( null )
+      //       }else if( event.type == "_checkval" && this.control.value != this.inputElement.nativeElement.value ){
+      //         console.log("caret-a",caret)
+      //         // this.control.setValue( this.inputElement.nativeElement.value )
+      //       }
+      //     },
+      //     0
+      //   )
+        
+      //   // if( event.type == "keydown" && (event.key == "Backspace" || event.key == "Delete") ){
+      //   // }
+      //   return {}
+      // }
     })
     
     if( this.negative !== undefined ){
@@ -129,40 +151,26 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
 
   }
 
-  onBlur(value: any){
-    // if( value != '' && Number( this.inputMask.digits ) > 0 ){
-    //   let valueBlurSplit = String(value).split(".")
-    //   let valueString = ""
-    //   if( valueBlurSplit.length == 1 ){
-    //     valueString = valueBlurSplit[0] + "." + String("").padEnd(Number(this.inputMask.digits), "0")
-    //   }else{
-    //     valueString = valueBlurSplit[0] + "." + String(valueBlurSplit[1]).padEnd(Number(this.inputMask.digits), "0")
-    //   }
-    //   this.control.setValue( parseFloat( valueString ) )
-    // }
-    this.control.setValue( value )
-  }
-
   ngOnInit(): void {
     this._NgxInputNumberService.getChangeEvent().subscribe(
       ( configs )=>{
-        if( configs ){
-          this.loading = true
+        // if( configs ){
+        //   this.loading = true
 
-          setTimeout(() => {
-            this.render()
-          }, 0);
-        }
+        //   setTimeout(() => {
+        //     this.render()
+        //   }, 0);
+        // }
       }
     )
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.loading = true
+    // this.loading = true
 
-    setTimeout(() => {
-      this.render()
-    }, 0);
+    // setTimeout(() => {
+    //   this.render()
+    // }, 0);
   }
 
 }

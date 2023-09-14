@@ -1,13 +1,12 @@
 <div class="position-relative">
     <input
-        *ngIf="!loading"
         #inputElement
         type="text"
         class="form-control {{ addClass }}"
         [class.is-invalid]="control.touched && control.invalid"
         [formControl]="control"
         [tabindex]="tabIndex"
-        [(inputMask)]="inputMask"
+        [inputMask]="inputMask"
         [id]="idForLabel"
     >
     <label class="lbl-key-invalid position-absolute top-100 end-0 p-2 d-none" [innerHTML]="lblKeyInvalidRender"></label>
