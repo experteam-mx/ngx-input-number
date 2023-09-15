@@ -8,9 +8,6 @@ import { inputConfigsHelp, typesProvider, defaultTypesProvider } from './typesPr
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { IMaskModule } from 'angular-imask';
 
-const maskConfig: Partial<IConfig> = {
-};
-
 @NgModule({
   declarations: [
     NgxInputNumberComponent
@@ -19,7 +16,6 @@ const maskConfig: Partial<IConfig> = {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxMaskModule.forRoot(maskConfig),
     IMaskModule
   ],
   exports: [

@@ -6,4 +6,4 @@ export * from './lib/typesProvider';
 export * from './lib/ngx-input-number.service';
 export * from './lib/ngx-input-number.component';
 export * from './lib/ngx-input-number.module';
-export * from 'ngx-mask';
+// export * from 'ngx-mask';

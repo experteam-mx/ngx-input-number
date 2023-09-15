@@ -209,6 +209,10 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
     this.prevValue = this.control.value
   }
   onKeyup(e: any){
+    if( e.target.value == "" ){
+      this.control.setValue("")
+    }
+
     let scapeKeys: any[] = [
       "ArrowLeft",
       "ArrowRight",
