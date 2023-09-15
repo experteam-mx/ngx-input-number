@@ -3,9 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NgxInputNumberComponent } from './ngx-input-number.component';
-import { InputMaskModule } from '@ngneat/input-mask';
 
 import { inputConfigsHelp, typesProvider, defaultTypesProvider } from './typesProvider';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { IMaskModule } from 'angular-imask';
+
+const maskConfig: Partial<IConfig> = {
+};
 
 @NgModule({
   declarations: [
@@ -13,9 +17,10 @@ import { inputConfigsHelp, typesProvider, defaultTypesProvider } from './typesPr
   ],
   imports: [
     CommonModule,
-    InputMaskModule.forRoot({ inputSelector: 'input', isAsync: true }),
     FormsModule,
     ReactiveFormsModule,
+    NgxMaskModule.forRoot(maskConfig),
+    IMaskModule
   ],
   exports: [
     NgxInputNumberComponent
