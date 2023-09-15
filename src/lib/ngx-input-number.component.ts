@@ -34,6 +34,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   lblKeyInvalidRender: any
 
   inputMask: InputmaskOptions<any> = {}
+  imask: any
 
   placeholder = "0"
 
@@ -50,10 +51,10 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   ngAfterContentInit(): void {
   }
 
-  // render(){
-  //   this._ChangeDetectorRef.detectChanges()
+  render(){
+    this._ChangeDetectorRef.detectChanges()
 
-  //   this.lblKeyInvalidRender = this._NgxInputNumberService.lblKeyInvalid
+    this.lblKeyInvalidRender = this._NgxInputNumberService.lblKeyInvalid
 
   //   this.inputMask = createMask({
   //     allowMinus: this._NgxInputNumberService.negative,
@@ -130,9 +131,6 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   //   if( this.radixPoint !== undefined ){
   //     this.inputMask.radixPoint = this.radixPoint
   //   }
-  //   if( this.lblKeyInvalid !== undefined ){
-  //     this.lblKeyInvalidRender = this.lblKeyInvalid
-  //   }
 
   //   if( this.decimals !== undefined ){
   //     this.inputMask.digits = this.decimals
@@ -149,18 +147,51 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
 
   //   this.loading = false
 
-  // }
+    this.imask = {
+      mask: Number,
+      scale: this._NgxInputNumberService.decimals,
+      thousandsSeparator: this._NgxInputNumberService.groupSeparator,
+      padFractionalZeros: true,
+      normalizeZeros: true,
+      radix: this._NgxInputNumberService.radixPoint,
+      max: this._NgxInputNumberService.max,
+      min: this._NgxInputNumberService.negative ? -999999999999999999999999999999999 : 0,
+    }
+
+    if( this.lblKeyInvalid !== undefined ){
+      this.lblKeyInvalidRender = this.lblKeyInvalid
+    }
+
+    if( this.negative !== undefined ){
+      this.imask.min = this.negative ? -999999999999999999999999999999999 : 0
+    }
+
+    if( this.max !== undefined ){
+      this.imask.max = this.max
+    }
+    
+    if( this.groupSeparator !== undefined ){
+      this.imask.thousandsSeparator = this.groupSeparator
+    }
+    if( this.radixPoint !== undefined ){
+      this.imask.radix = this.radixPoint
+    }
+
+    if( this.decimals !== undefined ){
+      this.imask.scale = this.decimals
+    }
+  }
 
   ngOnInit(): void {
     this._NgxInputNumberService.getChangeEvent().subscribe(
       ( configs )=>{
-        // if( configs ){
+        if( configs ){
         //   this.loading = true
 
         //   setTimeout(() => {
-        //     this.render()
+            this.render()
         //   }, 0);
-        // }
+        }
       }
     )
   }
@@ -169,22 +200,39 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
     // this.loading = true
 
     // setTimeout(() => {
-    //   this.render()
+      this.render()
     // }, 0);
   }
 
-  imask: any = {
-    mask: Number,  // enable number mask
-
-    // other options are optional with defaults below
-    scale: 2,  // digits after point, 0 for integers
-    thousandsSeparator: '',  // any single char
-    padFractionalZeros: true,  // if true, then pads zeros at end to the length of scale
-    normalizeZeros: true,  // appends or removes zeros at ends
-    radix: ',',  // fractional delimiter
+  prevValue: any = ""
+  onKeydown(e: any){
+    this.prevValue = this.control.value
   }
-
-  onAccept(e: any){
-    console.log("e",e)
+  onKeyup(e: any){
+    let scapeKeys: any[] = [
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      "Escape",
+      "Backspace",
+      "Delete",
+      ".",
+      ",",
+      "-",
+    ]
+    if(
+      !scapeKeys.includes(e.key)
+      &&
+      this.prevValue === this.control.value
+    ){
+      this.inputElement.nativeElement.classList.add("key-invalid")
+      setTimeout(
+        ()=>{
+          this.inputElement.nativeElement.classList.remove("key-invalid")
+        },
+        1000
+      )
+    }
   }
 }

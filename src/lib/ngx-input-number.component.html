@@ -2,13 +2,15 @@
     <input
         #inputElement
         type="text"
-        class="form-control {{ addClass }}"
+        class="text-end form-control {{ addClass }}"
         [class.is-invalid]="control.touched && control.invalid"
         [formControl]="control"
         [tabindex]="tabIndex"
         [id]="idForLabel"
         [imask]="imask"
         [unmask]="true"
+        (keyup)="onKeyup($event)"
+        (keydown)="onKeydown($event)"
     >
     <label class="lbl-key-invalid position-absolute top-100 end-0 p-2 d-none" [innerHTML]="lblKeyInvalidRender"></label>
 </div>
