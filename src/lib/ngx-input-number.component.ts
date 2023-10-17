@@ -40,6 +40,8 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
 
   loading = false
 
+  initFormat = true
+
   ngAfterViewInit(): void {
     if( this.autofocus ){
       setTimeout(()=>{
@@ -146,7 +148,6 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   //   // }
 
   //   this.loading = false
-
     this.imask = {
       mask: Number,
       scale: this._NgxInputNumberService.decimals,
@@ -156,6 +157,29 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       radix: this._NgxInputNumberService.radixPoint,
       max: this._NgxInputNumberService.max,
       min: this._NgxInputNumberService.negative ? -999999999999999999999999999999999 : 0,
+      // format: (x: any) => {
+      //   // console.log("this.inputElement.nativeElement.value",this.inputElement.nativeElement.value)
+      //   // console.log("x",x)
+
+      //   // setTimeout(() => {
+      //   //   if( this.initFormat && (x === null || x === "") && this.inputElement.nativeElement.value === "" ){
+      //   //     this.initFormat = false
+      //   //     this.control.setValue("")
+      //   //     setTimeout(() => {
+      //   //       this.initFormat = true
+      //   //     });
+      //   //   }
+      //   // });
+
+      //   return x === null ? "" : parseFloat(x)
+      // },
+      format: (x: any) => {
+        console.log("format", x)
+        if( x === null || x === 0 )
+          return null
+
+        return String(x)
+      }
     }
 
     if( this.lblKeyInvalid !== undefined ){
@@ -180,6 +204,14 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
     if( this.decimals !== undefined ){
       this.imask.scale = this.decimals
     }
+
+    setTimeout(
+      () => {
+        if( this.inputElement.nativeElement.value == "" && (this.control.value === null || this.control.value === "" || this.control.value === 0) ){
+          this.control.setValue("")
+        }
+      }
+    )
   }
 
   ngOnInit(): void {
@@ -238,5 +270,12 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
         1000
       )
     }
+  }
+  onInput(e: any){
+    console.log("onInput",e)
+  }
+
+  parseValue(){
+    this.control.setValue(Number(this.control.value as String))
   }
 }
