@@ -173,13 +173,13 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
 
       //   return x === null ? "" : parseFloat(x)
       // },
-      format: (x: any) => {
-        console.log("format", x)
-        if( x === null || x === 0 )
-          return null
+      // format: (x: any) => {
+      //   console.log("format", x)
+      //   if( x === null || x === 0 )
+      //     return null
 
-        return String(x)
-      }
+      //   return String(x)
+      // }
     }
 
     if( this.lblKeyInvalid !== undefined ){
