@@ -4,6 +4,7 @@ import { createMask, InputmaskOptions } from '@ngneat/input-mask';
 
 import { inputConfigs, typesProvider } from './typesProvider';
 import { NgxInputNumberService } from './ngx-input-number.service';
+import { IMaskDirective } from 'angular-imask';
 
 @Component({
   selector: 'app-input-number',
@@ -19,6 +20,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   ) { }
 
   @ViewChild('inputElement') inputElement!: ElementRef;
+  @ViewChild(IMaskDirective, { static: false }) iMaskDir!: IMaskDirective<IMask.MaskedNumber>;
 
   @Input() control!: FormControl
   @Input() negative!: any
@@ -43,6 +45,8 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   initFormat = true
 
   ngAfterViewInit(): void {
+    this.iMaskDir.maskRef?.updateValue();
+
     if( this.autofocus ){
       setTimeout(()=>{
         this.inputElement.nativeElement.focus();
@@ -53,6 +57,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
   ngAfterContentInit(): void {
   }
 
+  resetControl = false
   render(){
     this._ChangeDetectorRef.detectChanges()
 
@@ -173,13 +178,24 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
 
       //   return x === null ? "" : parseFloat(x)
       // },
-      // format: (x: any) => {
-      //   console.log("format", x)
-      //   if( x === null || x === 0 )
-      //     return null
+      format: (x: any) => {
+        if( typeof x !== 'string' && x !== 0 && !this.resetControl ){
+          this.resetControl = true
+          this.inputElement.nativeElement.value = null
+          this.iMaskDir.maskRef?.updateValue()
+          setTimeout(
+            () => {
+              this.iMaskDir.maskRef?.updateControl()
+              this.control.setValue( "" )
+              this.resetControl = false
+            }
+          )
 
-      //   return String(x)
-      // }
+          return ""
+        }
+
+        return x
+      }
     }
 
     if( this.lblKeyInvalid !== undefined ){
@@ -271,6 +287,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       )
     }
   }
+  
   onInput(e: any){
     console.log("onInput",e)
   }
