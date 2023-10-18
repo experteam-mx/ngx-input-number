@@ -179,22 +179,22 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
       //   return x === null ? "" : parseFloat(x)
       // },
       format: (x: any) => {
-        if( typeof x !== 'string' && x !== 0 && !this.resetControl ){
+        if( typeof x !== 'string' && x === null && !this.resetControl ){
           this.resetControl = true
           this.inputElement.nativeElement.value = null
           this.iMaskDir.maskRef?.updateValue()
           setTimeout(
             () => {
               this.iMaskDir.maskRef?.updateControl()
-              this.control.setValue( "" )
+              this.control.setValue( null )
               this.resetControl = false
             }
           )
 
-          return ""
+          return null
         }
 
-        return x
+        return String(x)
       }
     }
 
