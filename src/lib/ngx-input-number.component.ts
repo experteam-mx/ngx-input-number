@@ -59,6 +59,8 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
 
   resetControl = false
   render(){
+    this.control.setValue( String(this.control.value).replace(".", this._NgxInputNumberService.radixPoint) )
+
     this._ChangeDetectorRef.detectChanges()
 
     this.lblKeyInvalidRender = this._NgxInputNumberService.lblKeyInvalid
