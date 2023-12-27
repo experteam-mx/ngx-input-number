@@ -1,8 +1,8 @@
-import { Injectable, Optional, Inject, EventEmitter, Output, LOCALE_ID } from '@angular/core';
+import { Injectable, Optional, Inject } from '@angular/core';
 import { INPUT_CONFIG_TOKEN } from './di';
 import { inputConfigs } from './types';
-import { BehaviorSubject, Subject } from "rxjs";
-import { getLocaleNumberSymbol, NumberSymbol, formatNumber } from '@angular/common';
+import { BehaviorSubject} from "rxjs";
+// import { getLocaleNumberSymbol, NumberSymbol, formatNumber } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -10,19 +10,19 @@ import { getLocaleNumberSymbol, NumberSymbol, formatNumber } from '@angular/comm
 export class NgxInputNumberService {
 
   changeEvent = new BehaviorSubject<boolean>(false);
-  groupSeparator = getLocaleNumberSymbol(this.locale, NumberSymbol.Group)
-  radixPoint = getLocaleNumberSymbol(this.locale, NumberSymbol.Decimal)
+  groupSeparator = ","
+  radixPoint = "."
   lblKeyInvalid = 'Please enter a valid amount'
   negative: any = true
   max: any = undefined
-  private helpNumber: number = 1234.5678901234567
-  private helpSplit: string[] = formatNumber(this.helpNumber, this.locale).split(/[/.|,]/)
-  decimals = this.helpSplit[ this.helpSplit.length - 1 ].length
+  // private helpNumber: number = 1234.5678901234567
+  // private helpSplit: string[] = formatNumber(this.helpNumber, this.locale).split(/[/.|,]/)
+  decimals = 2
 
   constructor(
     @Optional() @Inject(INPUT_CONFIG_TOKEN)
     private readonly config: inputConfigs | null,
-    @Inject(LOCALE_ID) private locale: string
+    // @Inject(LOCALE_ID) private locale: string
   ) {
     if( config != null ){
       this.groupSeparator = config.groupSeparator!
