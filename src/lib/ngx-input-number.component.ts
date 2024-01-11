@@ -256,7 +256,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
 
   prevValue: any = ""
   onKeydown(e: any){
-    this.prevValue = this.control.value
+    this.prevValue = e.target.value
   }
   onKeyup(e: any){
     if( e.target.value == "" ){
@@ -278,7 +278,7 @@ export class NgxInputNumberComponent implements OnInit, OnChanges {
     if(
       !scapeKeys.includes(e.key)
       &&
-      this.prevValue === this.control.value
+      this.prevValue === e.target.value
     ){
       this.inputElement.nativeElement.classList.add("key-invalid")
       setTimeout(
